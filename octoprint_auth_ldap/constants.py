@@ -13,6 +13,7 @@ LDAP_PARENT_GROUP_NAME = "ldap_parent_group_name"
 OU_FILTER = "ou_filter"
 OU_MEMBER_FILTER = "ou_member_filter"
 OU = "ou"
+GROUP_BASE = "group_base"
 LOCAL_CACHE = "local_cache",
 REQUEST_TLS_CERT = "request_tls_cert"
 SEARCH_BASE = "search_base"

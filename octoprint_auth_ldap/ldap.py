@@ -5,7 +5,7 @@ import json
 
 import ldap
 from octoprint_auth_ldap.constants import AUTH_PASSWORD, AUTH_USER, DISTINGUISHED_NAME, OU, OU_FILTER, OU_MEMBER_FILTER, \
-    REQUEST_TLS_CERT, SEARCH_BASE, URI
+    REQUEST_TLS_CERT, SEARCH_BASE, URI, GROUP_BASE
 from octoprint_auth_ldap.tweaks import DependentOnSettingsPlugin
 
 
@@ -67,6 +67,7 @@ class LDAPConnection(DependentOnSettingsPlugin):
         memberships = []
 
         ou_common_names = self.settings.get([OU])
+        group_base = self.settings.get([GROUP_BASE])
         if ou_common_names is None:
             return False
 
@@ -76,7 +77,7 @@ class LDAPConnection(DependentOnSettingsPlugin):
             result = self.search("(&" +
                                  "(" + ou_filter % ou_common_name.strip() + ")" +
                                  "(" + (ou_member_filter % dn) + ")" +
-                                 ")")
+                                 ")", base=group_base)
             if result is not None and result[DISTINGUISHED_NAME] is not None:
                 self.logger.debug("%s is a member of %s" % (dn, result[DISTINGUISHED_NAME]))
                 memberships.append(ou_common_name)
